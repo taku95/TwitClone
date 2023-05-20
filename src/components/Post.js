@@ -1,6 +1,7 @@
 import React from "react";
 import { db } from "../firebase";
 import { collection, addDoc } from "firebase/firestore";
+
 import { IconButton, TextField, Box } from "@mui/material";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 
@@ -16,8 +17,10 @@ const Post = () => {
 
     try {
       const postsCollectionRef = collection(db, "posts");
+      const timestamp = new Date();
       const newPostRef = await addDoc(postsCollectionRef, {
         content: content,
+        createdAt: timestamp,
       });
       console.log("New post created with ID:", newPostRef.id);
       post.value = "";
@@ -25,7 +28,6 @@ const Post = () => {
       console.log("Error creating post:", error);
     }
   };
-
   return (
     <Box sx={{ margin: "50px" }}>
       <form onSubmit={handleSubmit}>
