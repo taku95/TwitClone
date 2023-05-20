@@ -3,6 +3,9 @@ import { Typography, List, ListItem, Avatar } from "@mui/material";
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 
+import Post from "../components/Post";
+import { ConnectingAirportsOutlined } from "@mui/icons-material";
+
 const Home = () => {
   const [posts, setPosts] = useState([]);
 
@@ -16,12 +19,9 @@ const Home = () => {
 
     fetchPosts();
   }, []);
-
   return (
     <div>
-      <Typography variant="h4" component="h1" align="center" gutterBottom>
-        ホーム
-      </Typography>
+      <Post />
       <List>
         {posts.map((post, index) => (
           <ListItem
@@ -32,13 +32,16 @@ const Home = () => {
               marginBottom: "16px",
             }}
           >
+            {console.log(post)}
             <Avatar alt="User Avatar" style={{ marginRight: "8px" }}>
               {/* ユーザーアバター画像 */}
             </Avatar>
             <div>
               <Typography>{post.content}</Typography>
-              <Typography variant="caption">{post.comments}</Typography>
-              <Typography variant="caption">{post.likes} Likes</Typography>
+              {/* <Typography variant="caption">{post.comments}</Typography> */}
+              <Typography variant="caption">
+                {post.likes !== undefined ? post.likes : 0} Likes
+              </Typography>
             </div>
           </ListItem>
         ))}
