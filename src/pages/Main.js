@@ -4,7 +4,7 @@ import Home from "./Home";
 import Signup from "./Signup";
 import Login from "./Login";
 
-const Main = () => {
+const Main = ({ isLoggedIn }) => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
