@@ -1,7 +1,8 @@
 import React from "react";
+import Grid from "@mui/material/Grid";
 
 const Sidebar = () => {
-  return <div>Sidebar</div>;
+  return <Grid container></Grid>;
 };
 
 export default Sidebar;
