@@ -3,9 +3,11 @@ import { useForm } from "react-hook-form";
 import { TextField, Button, Box, Typography, Link } from "@mui/material";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -17,6 +19,7 @@ const Login = () => {
       const { email, password } = data;
       await signInWithEmailAndPassword(auth, email, password);
       console.log("ログインに成功しました");
+      navigate("/"); // ログイン後に/（Home.js）へリダイレクト
     } catch (error) {
       console.log("ログインエラー:", error);
     }
