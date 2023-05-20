@@ -4,6 +4,7 @@ import { TextField, Button, Box, Typography, IconButton } from "@mui/material";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const {
@@ -13,12 +14,14 @@ const Signup = () => {
   } = useForm();
 
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate(); // useNavigate フックを使用して navigate 関数を取得
 
   const onSubmit = async (data) => {
     try {
       const { email, password } = data;
       await createUserWithEmailAndPassword(auth, email, password);
       console.log("ユーザーのサインアップに成功しました");
+      navigate("/"); // サインアップに成功したら "/" へ遷移
     } catch (error) {
       console.log("サインアップエラー:", error);
     }
@@ -31,7 +34,7 @@ const Signup = () => {
   return (
     <Box sx={{ maxWidth: 400, margin: "0 auto", padding: 2 }}>
       <Typography variant="h4" component="h1" align="center" gutterBottom>
-        　Sign up
+        Sign up
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box sx={{ mb: 2 }}>

@@ -1,8 +1,9 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { TextField, Button, Box, Typography } from "@mui/material";
+import { TextField, Button, Box, Typography, Link } from "@mui/material";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase";
+import { Link as RouterLink } from "react-router-dom";
 
 const Login = () => {
   const {
@@ -51,6 +52,12 @@ const Login = () => {
           ログイン
         </Button>
       </form>
+      <Typography variant="body2" align="center" sx={{ mt: 2 }}>
+        アカウントをお持ちでないですか？{" "}
+        <Link component={RouterLink} to="/signup">
+          こちらからサインアップ
+        </Link>
+      </Typography>
     </Box>
   );
 };
