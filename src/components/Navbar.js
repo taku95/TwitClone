@@ -5,8 +5,18 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
+import { auth } from "../firebase";
 
-const Navbar = ({ title }) => {
+const Navbar = ({ title, isLoggedIn }) => {
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+      console.log("Logged out");
+    } catch (error) {
+      console.log("Logout error:", error);
+    }
+  };
+
   return (
     <AppBar position="static" sx={{ top: "auto", bottom: 0, height: "100vh" }}>
       <Toolbar sx={{ flexDirection: "column" }}>
@@ -25,22 +35,36 @@ const Navbar = ({ title }) => {
         >
           Home
         </Button>
-        <Button
-          component={Link}
-          to="/login"
-          variant="text"
-          sx={{ my: 1, color: "white" }}
-        >
-          Login
-        </Button>
-        <Button
-          component={Link}
-          to="/signup"
-          variant="text"
-          sx={{ my: 1, color: "white" }}
-        >
-          Sign Up
-        </Button>
+        {isLoggedIn ? (
+          <React.Fragment>
+            <Button
+              onClick={handleLogout}
+              variant="text"
+              sx={{ my: 1, color: "white" }}
+            >
+              Logout
+            </Button>
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <Button
+              component={Link}
+              to="/login"
+              variant="text"
+              sx={{ my: 1, color: "white" }}
+            >
+              Login
+            </Button>
+            <Button
+              component={Link}
+              to="/signup"
+              variant="text"
+              sx={{ my: 1, color: "white" }}
+            >
+              Sign Up
+            </Button>
+          </React.Fragment>
+        )}
       </Toolbar>
     </AppBar>
   );

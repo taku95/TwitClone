@@ -1,28 +1,41 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+/* eslint-disable no-unused-vars */
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Grid } from "@mui/material";
 
-import Signup from "./pages/Signup";
-import Home from "./pages/Home";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
-import Login from "./pages/Login";
+import { auth } from "./firebase";
+import Main from "./pages/Main";
 
 const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setIsLoggedIn(true);
+        setUser(user);
+      } else {
+        setIsLoggedIn(false);
+        setUser(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return (
     <Router>
       <Grid container sx={{ height: "100vh" }}>
         <Grid item xs={3}>
-          <Navbar title="My Twitter App" />
+          <Navbar title="My Twitter App" isLoggedIn={isLoggedIn} />
         </Grid>
         <Grid item xs={6}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/login" element={<Login />} />
-          </Routes>
+          <Main />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={3} sx={{ backgroundColor: "primary.main" }}>
           <Sidebar />
         </Grid>
       </Grid>
