@@ -1,11 +1,11 @@
 import React from "react";
 import { db } from "../firebase";
-import { collection, addDoc, doc, setDoc } from "firebase/firestore";
+import { collection, doc, setDoc } from "firebase/firestore";
 
 import { IconButton, TextField, Box } from "@mui/material";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 
-const Post = ({ setRefreshFlag, user }) => {
+const CreatePost = ({ setRefreshFlag, user }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const { post } = event.target.elements;
@@ -60,4 +60,4 @@ const Post = ({ setRefreshFlag, user }) => {
   );
 };
 
-export default Post;
+export default CreatePost;

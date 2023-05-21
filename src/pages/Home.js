@@ -10,7 +10,7 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
-import Post from "../components/Post";
+import CreatePost from "../components/CreatePost";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 
 const Home = ({ user }) => {
@@ -66,7 +66,7 @@ const Home = ({ user }) => {
           height: "5vh",
         }}
       >
-        <Post user={user} setRefreshFlag={setRefreshFlag} />
+        <CreatePost user={user} setRefreshFlag={setRefreshFlag} />
       </Box>
       <Box
         sx={{
