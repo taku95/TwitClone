@@ -1,6 +1,6 @@
 import React from "react";
 import { db } from "../firebase";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, doc, setDoc } from "firebase/firestore";
 
 import { IconButton, TextField, Box } from "@mui/material";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
@@ -17,19 +17,22 @@ const Post = ({ setRefreshFlag, user }) => {
 
     try {
       const postsCollectionRef = collection(db, "posts");
+      const newPostRef = doc(postsCollectionRef); // ランダムなIDを持つ新しいドキュメントの参照を作成
       const timestamp = new Date();
-      const newPostRef = await addDoc(postsCollectionRef, {
+      await setDoc(newPostRef, {
         content: content,
         createdAt: timestamp,
         userId: user.uid,
-      });
-      console.log("New post created with ID:", newPostRef);
+        postId: newPostRef.id,
+      }); // ドキュメントにデータをセット
+      console.log("New post created with ID:", newPostRef.id);
       post.value = "";
       setRefreshFlag(true);
     } catch (error) {
       console.log("Error creating post:", error);
     }
   };
+
   return (
     <Box
       sx={{
