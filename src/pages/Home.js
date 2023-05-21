@@ -11,7 +11,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase";
 import CreatePost from "../components/CreatePost";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import Posts from "../components/Posts";
 
 const Home = ({ user }) => {
   const [posts, setPosts] = useState([]);
@@ -32,33 +32,6 @@ const Home = ({ user }) => {
     setRefreshFlag(false);
   }, [refreshFlag]);
 
-  const handleLikeClick = async (post) => {
-    try {
-      // Firestoreから対象の投稿を取得
-      const postRef = doc(db, "posts", post.postId);
-      const postSnapshot = await getDoc(postRef);
-
-      if (postSnapshot.exists()) {
-        // 投稿が存在する場合
-        const postData = postSnapshot.data();
-        const currentLikes = postData.likes || 0;
-        const updatedLikes = currentLikes + 1;
-
-        // いいね数を更新
-        await updateDoc(postRef, {
-          likes: updatedLikes,
-        });
-
-        console.log("Liked post with ID:", post.postId);
-        setRefreshFlag(true); // 投稿一覧の再取得
-      } else {
-        console.log("Post does not exist.");
-      }
-    } catch (error) {
-      console.log("Error liking post:", error);
-    }
-  };
-
   return (
     <Box>
       <Box
@@ -68,43 +41,7 @@ const Home = ({ user }) => {
       >
         <CreatePost user={user} setRefreshFlag={setRefreshFlag} />
       </Box>
-      <Box
-        sx={{
-          overflow: "auto",
-          scrollbarWidth: "none",
-          "&::-webkit-scrollbar": {
-            display: "none", // Chrome, Safari用
-          },
-          height: "94vh",
-        }}
-      >
-        <List>
-          {posts.map((post, index) => (
-            <ListItem
-              key={index}
-              style={{
-                display: "flex",
-                alignItems: "flex-start",
-                marginBottom: "16px",
-              }}
-            >
-              <Avatar alt="User Avatar" style={{ marginRight: "8px" }}></Avatar>
-              <div>
-                <Typography>{post.userDisplayName}</Typography>
-                <Typography>{post.content}</Typography>
-                <Typography
-                  variant="caption"
-                  onClick={() => handleLikeClick(post)}
-                  style={{ cursor: "pointer" }}
-                >
-                  <FavoriteBorderIcon color="action" fontSize="small" />
-                  {post.likes !== undefined ? post.likes : ""}
-                </Typography>
-              </div>
-            </ListItem>
-          ))}
-        </List>
-      </Box>
+      <Posts setRefreshFlag={setRefreshFlag} posts={posts} />
     </Box>
   );
 };
