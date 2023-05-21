@@ -5,7 +5,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { IconButton, TextField, Box } from "@mui/material";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 
-const Post = () => {
+const Post = ({ setRefreshFlag }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const { post } = event.target.elements;
@@ -24,6 +24,7 @@ const Post = () => {
       });
       console.log("New post created with ID:", newPostRef.id);
       post.value = "";
+      setRefreshFlag(true);
     } catch (error) {
       console.log("Error creating post:", error);
     }

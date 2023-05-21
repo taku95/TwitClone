@@ -6,6 +6,7 @@ import Post from "../components/Post";
 
 const Home = () => {
   const [posts, setPosts] = useState([]);
+  const [refreshFlag, setRefreshFlag] = useState(false);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -18,13 +19,13 @@ const Home = () => {
       const postData = querySnapshot.docs.map((doc) => doc.data());
       setPosts(postData);
     };
-
     fetchPosts();
-  }, []);
+    setRefreshFlag(false);
+  }, [refreshFlag]);
 
   return (
     <div>
-      <Post />
+      <Post setRefreshFlag={setRefreshFlag} />
       <List>
         {posts.map((post, index) => (
           <ListItem
