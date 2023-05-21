@@ -31,7 +31,11 @@ const Post = ({ setRefreshFlag, user }) => {
     }
   };
   return (
-    <Box sx={{ margin: "50px" }}>
+    <Box
+      sx={{
+        margin: "0.5vh",
+      }}
+    >
       <form onSubmit={handleSubmit}>
         <TextField
           name="post"
