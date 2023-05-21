@@ -26,7 +26,7 @@ const Navbar = ({ title, isLoggedIn }) => {
         <Typography
           variant="h6"
           component="div"
-          sx={{ textAlign: "center", color: "white" }}
+          sx={{ textAlign: "center", color: "white", paddingTop: "0.5vh" }}
         >
           {title}
         </Typography>
