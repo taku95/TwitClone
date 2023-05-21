@@ -4,7 +4,7 @@ import { orderBy, query, collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import Post from "../components/Post";
 
-const Home = () => {
+const Home = ({ user }) => {
   const [posts, setPosts] = useState([]);
   const [refreshFlag, setRefreshFlag] = useState(false);
 
@@ -25,7 +25,7 @@ const Home = () => {
 
   return (
     <div>
-      <Post setRefreshFlag={setRefreshFlag} />
+      <Post user={user} setRefreshFlag={setRefreshFlag} />
       <List>
         {posts.map((post, index) => (
           <ListItem
@@ -36,10 +36,7 @@ const Home = () => {
               marginBottom: "16px",
             }}
           >
-            {console.log(post)}
-            <Avatar alt="User Avatar" style={{ marginRight: "8px" }}>
-              {/* ユーザーアバター画像 */}
-            </Avatar>
+            <Avatar alt="User Avatar" style={{ marginRight: "8px" }}></Avatar>
             <div>
               <Typography>{post.content}</Typography>
               {/* <Typography variant="caption">{post.comments}</Typography> */}

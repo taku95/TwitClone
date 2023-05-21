@@ -33,7 +33,7 @@ const App = () => {
           <Navbar title="Twit" isLoggedIn={isLoggedIn} />
         </Grid>
         <Grid item xs={6}>
-          <Main isLoggedIn={isLoggedIn} />
+          <Main isLoggedIn={isLoggedIn} user={user} />
         </Grid>
         <Grid item xs={3} sx={{ backgroundColor: "primary.main" }}>
           <Sidebar />

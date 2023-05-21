@@ -4,10 +4,10 @@ import Home from "./Home";
 import Signup from "./Signup";
 import Login from "./Login";
 
-const Main = ({ isLoggedIn }) => {
+const Main = ({ isLoggedIn, user }) => {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<Home user={user} />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
     </Routes>

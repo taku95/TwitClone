@@ -5,7 +5,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { IconButton, TextField, Box } from "@mui/material";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 
-const Post = ({ setRefreshFlag }) => {
+const Post = ({ setRefreshFlag, user }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const { post } = event.target.elements;
@@ -21,8 +21,9 @@ const Post = ({ setRefreshFlag }) => {
       const newPostRef = await addDoc(postsCollectionRef, {
         content: content,
         createdAt: timestamp,
+        userId: user.uid,
       });
-      console.log("New post created with ID:", newPostRef.id);
+      console.log("New post created with ID:", newPostRef);
       post.value = "";
       setRefreshFlag(true);
     } catch (error) {
