@@ -30,7 +30,7 @@ const App = () => {
     <Router>
       <Grid container sx={{ height: "100vh" }}>
         <Grid item xs={3}>
-          <Navbar title="Twit" isLoggedIn={isLoggedIn} />
+          <Navbar title="Twit" user={user} isLoggedIn={isLoggedIn} />
         </Grid>
         <Grid item xs={6} sx={{ height: "100vh" }}>
           <Main isLoggedIn={isLoggedIn} user={user} />

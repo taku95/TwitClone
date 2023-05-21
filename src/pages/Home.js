@@ -90,6 +90,7 @@ const Home = ({ user }) => {
             >
               <Avatar alt="User Avatar" style={{ marginRight: "8px" }}></Avatar>
               <div>
+                <Typography>{post.userDisplayName}</Typography>
                 <Typography>{post.content}</Typography>
                 <Typography
                   variant="caption"

@@ -20,6 +20,7 @@ const Post = ({ setRefreshFlag, user }) => {
       const newPostRef = doc(postsCollectionRef); // ランダムなIDを持つ新しいドキュメントの参照を作成
       const timestamp = new Date();
       await setDoc(newPostRef, {
+        userDisplayName: user.displayName,
         content: content,
         createdAt: timestamp,
         userId: user.uid,

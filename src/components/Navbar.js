@@ -6,8 +6,10 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
+import Avatar from "@mui/material/Avatar";
+import { Box } from "@mui/material";
 
-const Navbar = ({ title, isLoggedIn }) => {
+const Navbar = ({ title, isLoggedIn, user }) => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -19,10 +21,16 @@ const Navbar = ({ title, isLoggedIn }) => {
       console.log("Logout error:", error);
     }
   };
-
+  console.log(user);
   return (
     <AppBar position="static" sx={{ top: "auto", bottom: 0, height: "100vh" }}>
-      <Toolbar sx={{ flexDirection: "column" }}>
+      <Toolbar
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }}
+      >
         <Typography
           variant="h6"
           component="div"
@@ -30,31 +38,57 @@ const Navbar = ({ title, isLoggedIn }) => {
         >
           {title}
         </Typography>
-        <Button
-          component={Link}
-          to="/"
-          variant="text"
-          sx={{ my: 1, color: "white" }}
-        >
-          Home
-        </Button>
-        {isLoggedIn ? (
-          <React.Fragment>
+        {isLoggedIn && user && (
+          <Box
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "0.5rem",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.5rem",
+              }}
+            >
+              <Avatar
+                alt="User Avatar"
+                src={user.photoURL}
+                sx={{ width: 32, height: 32 }}
+              />
+              <Typography variant="body2" sx={{ color: "white" }}>
+                {user.displayName}
+              </Typography>
+            </Box>
+            <Button
+              component={Link}
+              to="/"
+              variant="text"
+              sx={{ color: "white" }}
+            >
+              Home
+            </Button>
+
             <Button
               onClick={handleLogout}
               variant="text"
-              sx={{ my: 1, color: "white" }}
+              sx={{ color: "white" }}
             >
               Logout
             </Button>
-          </React.Fragment>
-        ) : (
+          </Box>
+        )}
+
+        {!isLoggedIn && (
           <React.Fragment>
             <Button
               component={Link}
               to="/login"
               variant="text"
-              sx={{ my: 1, color: "white" }}
+              sx={{ color: "white" }}
             >
               Login
             </Button>
@@ -62,7 +96,7 @@ const Navbar = ({ title, isLoggedIn }) => {
               component={Link}
               to="/signup"
               variant="text"
-              sx={{ my: 1, color: "white" }}
+              sx={{ color: "white" }}
             >
               Sign Up
             </Button>
