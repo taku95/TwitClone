@@ -1,60 +1,64 @@
 import React from "react";
+import { Typography, ListItem, Avatar, Box } from "@mui/material";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { db } from "../firebase";
-import { collection, addDoc, doc, setDoc } from "firebase/firestore";
 
-import { IconButton, TextField, Box } from "@mui/material";
-import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
+import { doc, updateDoc, getDoc } from "firebase/firestore";
 
-const Post = ({ setRefreshFlag, user }) => {
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const { post } = event.target.elements;
-    const content = post.value.trim();
-
-    if (content === "") {
-      return;
-    }
-
+const Post = ({ posts, setRefreshFlag }) => {
+  const handleLikeClick = async (post) => {
     try {
-      const postsCollectionRef = collection(db, "posts");
-      const newPostRef = doc(postsCollectionRef); // ランダムなIDを持つ新しいドキュメントの参照を作成
-      const timestamp = new Date();
-      await setDoc(newPostRef, {
-        content: content,
-        createdAt: timestamp,
-        userId: user.uid,
-        postId: newPostRef.id,
-      }); // ドキュメントにデータをセット
-      console.log("New post created with ID:", newPostRef.id);
-      post.value = "";
-      setRefreshFlag(true);
+      // Firestoreから対象の投稿を取得
+      const postRef = doc(db, "posts", post.postId);
+      const postSnapshot = await getDoc(postRef);
+
+      if (postSnapshot.exists()) {
+        // 投稿が存在する場合
+        const postData = postSnapshot.data();
+        const currentLikes = postData.likes || 0;
+        const updatedLikes = currentLikes + 1;
+
+        // いいね数を更新
+        await updateDoc(postRef, {
+          likes: updatedLikes,
+        });
+
+        console.log("Liked post with ID:", post.postId);
+        setRefreshFlag(true); // 投稿一覧の再取得
+      } else {
+        console.log("Post does not exist.");
+      }
     } catch (error) {
-      console.log("Error creating post:", error);
+      console.log("Error liking post:", error);
     }
   };
 
   return (
-    <Box
-      sx={{
-        margin: "0.5vh",
-      }}
-    >
-      <form onSubmit={handleSubmit}>
-        <TextField
-          name="post"
-          label="What's on your mind, Elon?"
-          type="text"
-          placeholder="What's on your mind, Elon?"
-          fullWidth
-          InputProps={{
-            endAdornment: (
-              <IconButton type="submit">
-                <RocketLaunchIcon />
-              </IconButton>
-            ),
+    <Box>
+      {posts.map((post, index) => (
+        <ListItem
+          key={index}
+          style={{
+            display: "flex",
+            alignItems: "flex-start",
+            marginBottom: "16px",
           }}
-        />
-      </form>
+        >
+          <Avatar alt="User Avatar" style={{ marginRight: "8px" }}></Avatar>
+          <div>
+            <Typography>{post.userDisplayName}</Typography>
+            <Typography>{post.content}</Typography>
+            <Typography
+              variant="caption"
+              onClick={() => handleLikeClick(post)}
+              style={{ cursor: "pointer" }}
+            >
+              <FavoriteBorderIcon color="action" fontSize="small" />
+              {post.likes !== undefined ? post.likes : ""}
+            </Typography>
+          </div>
+        </ListItem>
+      ))}
     </Box>
   );
 };
