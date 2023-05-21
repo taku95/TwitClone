@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-import { TextField, Button, Box, Typography, IconButton } from "@mui/material";
+import Password from "../components/Pssword";
+import Email from "../components/Email";
+import DisplayName from "../components/DisplayName";
+import SubmitButton from "../components/SubmitButton";
+
+import { Box, Typography } from "@mui/material";
 
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../firebase";
-
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 const Signup = () => {
   const {
@@ -16,7 +19,6 @@ const Signup = () => {
     formState: { errors },
   } = useForm();
 
-  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate(); // useNavigate フックを使用して navigate 関数を取得
 
   const onSubmit = async (data) => {
@@ -41,56 +43,16 @@ const Signup = () => {
     }
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword((prevShowPassword) => !prevShowPassword);
-  };
-
   return (
     <Box sx={{ maxWidth: 400, margin: "0 auto", padding: 2 }}>
       <Typography variant="h4" component="h1" align="center" gutterBottom>
         Sign up
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Box sx={{ mb: 2 }}>
-          <TextField
-            {...register("displayName", { required: "表示名は必須です" })}
-            label="表示名"
-            placeholder="Display Name"
-            fullWidth
-            error={Boolean(errors.displayName)}
-            helperText={errors.displayName?.message}
-          />
-        </Box>
-        <Box sx={{ mb: 2 }}>
-          <TextField
-            {...register("email", { required: "メールアドレスは必須です" })}
-            label="メールアドレス"
-            placeholder="Email"
-            fullWidth
-            error={Boolean(errors.email)}
-            helperText={errors.email?.message}
-          />
-        </Box>
-        <Box sx={{ mb: 2 }}>
-          <TextField
-            {...register("password", { required: "パスワードは必須です" })}
-            type={showPassword ? "text" : "password"}
-            label="パスワード"
-            fullWidth
-            error={Boolean(errors.password)}
-            helperText={errors.password?.message}
-            InputProps={{
-              endAdornment: (
-                <IconButton onClick={togglePasswordVisibility} edge="end">
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              ),
-            }}
-          />
-        </Box>
-        <Button type="submit" variant="contained" fullWidth>
-          登録
-        </Button>
+        <DisplayName errors={errors} register={register} />
+        <Email errors={errors} register={register} />
+        <Password errors={errors} register={register} />
+        <SubmitButton title="登録" />
       </form>
     </Box>
   );

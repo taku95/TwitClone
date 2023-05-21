@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Typography, List, ListItem, Avatar, Box } from "@mui/material";
-import {
-  orderBy,
-  query,
-  collection,
-  getDocs,
-  doc,
-  updateDoc,
-  getDoc,
-} from "firebase/firestore";
+import { Box } from "@mui/material";
+import { orderBy, query, collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import CreatePost from "../components/CreatePost";
 import Posts from "../components/Posts";

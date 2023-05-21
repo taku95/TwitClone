@@ -9,7 +9,6 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
 const Navbar = ({ title, isLoggedIn, user }) => {
-  console.log(user);
   return (
     <AppBar position="static" sx={{ top: "auto", bottom: 0, height: "100vh" }}>
       <Toolbar
