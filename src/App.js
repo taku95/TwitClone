@@ -30,12 +30,16 @@ const App = () => {
     <Router>
       <Grid container sx={{ height: "100vh" }}>
         <Grid item xs={3}>
-          <Navbar title="My Twitter App" isLoggedIn={isLoggedIn} />
+          <Navbar title="Twit" isLoggedIn={isLoggedIn} />
         </Grid>
-        <Grid item xs={6}>
-          <Main isLoggedIn={isLoggedIn} />
+        <Grid item xs={6} sx={{ height: "100vh" }}>
+          <Main isLoggedIn={isLoggedIn} user={user} />
         </Grid>
-        <Grid item xs={3} sx={{ backgroundColor: "primary.main" }}>
+        <Grid
+          item
+          xs={3}
+          sx={{ backgroundColor: "primary.main", height: "100vh" }}
+        >
           <Sidebar />
         </Grid>
       </Grid>
