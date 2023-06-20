@@ -16,7 +16,7 @@ const Posts = ({ posts, setRefreshFlag }) => {
       }}
     >
       <List>
-        <Post posts={posts} />
+        <Post posts={posts} setRefreshFlag={setRefreshFlag} />
       </List>
     </Box>
   );
